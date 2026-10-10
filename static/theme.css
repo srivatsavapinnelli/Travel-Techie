@@ -1,0 +1,107 @@
+/* Travel Techie: theme tweaks.
+   1) LIGHT mode gets a slightly deeper background so cards pop.
+   2) DARK mode: variables + hand-tuned exceptions. The bulk of dark mode (about 100 rules) is generated
+      into dark-auto.css by tools/make_dark_css.py.
+   3) Header buttons (theme toggle, login) and the floating logo field. */
+
+/* ---------- 1. light mode: a little darker ---------- */
+:root { --bg-color: #e6edf4; }
+html[data-theme="light"] body {
+  background:
+    radial-gradient(1100px 560px at 10% -6%, rgba(13, 148, 136, .13), transparent 62%),
+    radial-gradient(900px 520px at 100% 4%, rgba(6, 90, 243, .10), transparent 58%),
+    var(--bg-color);
+  background-attachment: fixed;
+}
+html[data-theme="light"] .hero { background: linear-gradient(135deg, #cfeee9 0%, #d4e4fb 100%); }
+html[data-theme="light"] .hero-bg::after { background: linear-gradient(135deg, rgba(207, 238, 233, .72) 0%, rgba(212, 228, 251, .72) 100%); }
+html[data-theme="light"] .hero-bg-track img { opacity: .8; }
+
+/* ---------- 2. dark mode ---------- */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-color: #0a101c;
+  --navy: #e6ebf2;                       /* main text colour */
+  --muted: #9aa9bd;
+  --line: rgba(148, 163, 184, .2);
+  --mint: rgba(45, 212, 191, .12);
+  --glass-bg: rgba(20, 29, 43, .74);
+  --glass-border: rgba(148, 163, 184, .16);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, .45), 0 4px 12px rgba(0, 0, 0, .25);
+  --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .3);
+}
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(1100px 560px at 10% -6%, rgba(13, 148, 136, .20), transparent 62%),
+    radial-gradient(900px 520px at 100% 4%, rgba(59, 130, 246, .16), transparent 58%),
+    var(--bg-color);
+  background-attachment: fixed;
+}
+html[data-theme="dark"] .hero h1 {
+  background: linear-gradient(135deg, #f8fafc 35%, #5eead4 100%);
+  -webkit-background-clip: text; background-clip: text;
+}
+html[data-theme="dark"] .hero-bg-track img { opacity: .5; }
+html[data-theme="dark"] .toast { background: #1e293b; border: 1px solid rgba(148, 163, 184, .25); }
+html[data-theme="dark"] footer { background: #070c16; }
+html[data-theme="dark"] ::-webkit-scrollbar { width: 10px; height: 10px; }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
+html[data-theme="dark"] ::-webkit-scrollbar-track { background: #0f172a; }
+
+/* map: dark tiles and controls (Leaflet) */
+html[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.88) saturate(.75); }
+html[data-theme="dark"] .leaflet-container { background: #14202e; }
+html[data-theme="dark"] .leaflet-popup-content-wrapper,
+html[data-theme="dark"] .leaflet-popup-tip,
+html[data-theme="dark"] .leaflet-tooltip { background: #1b2635; color: #e6ebf2; border-color: rgba(148, 163, 184, .25); }
+html[data-theme="dark"] .leaflet-bar a { background: #1b2635; color: #e6ebf2; border-color: rgba(148, 163, 184, .25); }
+html[data-theme="dark"] .leaflet-control-attribution { background: rgba(10, 16, 28, .7); color: #9aa9bd; }
+
+/* smooth cross-fade for ~0.4s when the user flips the theme */
+html.tt-theme-anim *, html.tt-theme-anim *::before, html.tt-theme-anim *::after {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease !important;
+}
+
+/* ---------- 3. header buttons ---------- */
+.tt-nav-actions { display: flex; align-items: center; gap: 10px; }
+.tt-icon-btn {
+  width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--glass-bg); color: var(--navy); cursor: pointer; font-size: 18px; line-height: 1;
+  display: grid; place-items: center; transition: transform .2s, border-color .2s, background .2s;
+}
+.tt-icon-btn:hover { transform: translateY(-1px) rotate(-8deg); border-color: var(--teal); }
+.tt-icon-btn:focus-visible, .tt-pill-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.tt-pill-btn {
+  border: 1px solid var(--line); background: var(--glass-bg); color: var(--navy); border-radius: 12px;
+  padding: 9px 16px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all .2s;
+}
+.tt-pill-btn:hover { border-color: var(--teal); transform: translateY(-1px); }
+.tt-pill-btn.primary { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; border-color: transparent; }
+.tt-pill-btn.primary:hover { box-shadow: 0 6px 18px rgba(13, 148, 136, .35); }
+@media (max-width: 560px) { .tt-pill-btn.ghost { display: none; } }
+
+/* ---------- floating logo field (follows the cursor) ---------- */
+#tt-logo-field { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.tt-fl { position: absolute; will-change: transform; }
+.tt-fl > span { display: block; animation: tt-bob var(--dur, 7s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.tt-fl svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 4px 10px rgba(13, 148, 136, .25)); }
+@keyframes tt-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+html[data-theme="dark"] .tt-fl svg { filter: drop-shadow(0 4px 14px rgba(45, 212, 191, .35)); }
+.brand-logo { will-change: transform; }
+@media (hover: none), (prefers-reduced-motion: reduce) { #tt-logo-field { display: none; } }
+
+/* ---------- dark-mode contrast fixes found by screenshot review ---------- */
+html[data-theme="dark"] .airport-code-badge { color: #8ab4ff; background: rgba(59, 130, 246, .16); }
+html[data-theme="dark"] .trip-radio input[type="radio"]:checked + .radio-dot { border-color: #60a5fa; }
+
+/* ---------- accounts: solid surfaces + scrolling + dark badges ---------- */
+:root { --tt-surface: #ffffff; }
+html[data-theme="dark"] { --tt-surface: #121b2a; }
+.tt-modal, .tt-menu { background: var(--tt-surface); }
+.panel { scroll-margin-top: 172px; }             /* keeps the sticky tab bar from covering a panel after scrollIntoView */
+html[data-theme="dark"] .tt-badge2.confirmed { background: rgba(34, 197, 94, .18); color: #86efac; }
+html[data-theme="dark"] .tt-badge2.cancelled { background: rgba(239, 68, 68, .2); color: #fca5a5; }
+html[data-theme="dark"] .tt-badge2.pending { background: rgba(245, 158, 11, .2); color: #fcd34d; }
+html[data-theme="dark"] .tt-error { background: rgba(239, 68, 68, .16); border-color: rgba(239, 68, 68, .4); color: #fca5a5; }
+html[data-theme="dark"] .tt-mini.danger { color: #fca5a5; }
+html[data-theme="dark"] .tt-overlay { background: rgba(2, 6, 14, .72); }

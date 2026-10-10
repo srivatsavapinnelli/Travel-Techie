@@ -1,0 +1,119 @@
+/* Travel Techie: accounts (login modal, header menu, profile, My Trips). Colours use the page's CSS
+   variables so light and dark mode both work; dark-only exceptions live in theme.css. */
+
+/* ---------- header account button + menu ---------- */
+.tt-acct { position: relative; }
+.tt-avatar-btn { display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--glass-bg); color: var(--navy); cursor: pointer; font: 600 14px 'Inter', sans-serif; transition: all .2s; }
+.tt-avatar-btn:hover { border-color: var(--teal); }
+.tt-avatar { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 14px 'Sora', sans-serif;
+  background: linear-gradient(135deg, #f97316, #0d9488); flex: none; }
+.tt-avatar.lg { width: 76px; height: 76px; font-size: 32px; }
+.tt-menu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 210px; padding: 6px; border-radius: 14px; z-index: 300;
+  background: var(--glass-bg); border: 1px solid var(--line); box-shadow: var(--glass-shadow); backdrop-filter: blur(14px); display: none; }
+.tt-menu.open { display: block; animation: tt-pop .16s ease; }
+.tt-menu button { width: 100%; text-align: left; border: 0; background: none; padding: 10px 12px; border-radius: 10px; cursor: pointer;
+  font: 500 14px 'Inter', sans-serif; color: var(--navy); display: flex; gap: 10px; align-items: center; }
+.tt-menu button:hover { background: var(--mint); }
+.tt-menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 6px; }
+.tt-menu .who { padding: 8px 12px 6px; font-size: 12px; color: var(--muted); }
+.tt-menu .who b { display: block; color: var(--navy); font-size: 14px; }
+@keyframes tt-pop { from { opacity: 0; transform: translateY(-4px) scale(.98); } to { opacity: 1; transform: none; } }
+
+/* ---------- modal ---------- */
+.tt-overlay { position: fixed; inset: 0; z-index: 400; background: rgba(8, 15, 28, .55); backdrop-filter: blur(5px); display: none;
+  align-items: center; justify-content: center; padding: 18px; }
+.tt-overlay.open { display: flex; animation: tt-fade .18s ease; }
+@keyframes tt-fade { from { opacity: 0; } to { opacity: 1; } }
+.tt-modal { width: min(440px, 100%); max-height: calc(100vh - 36px); overflow: auto; border-radius: 22px; padding: 26px 26px 22px;
+  background: var(--glass-bg); border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); backdrop-filter: blur(18px); position: relative; }
+.tt-modal.wide { width: min(780px, 100%); }
+.tt-modal h2 { margin: 0 0 4px; font: 800 22px 'Sora', sans-serif; color: var(--navy); }
+.tt-modal .sub { margin: 0 0 16px; color: var(--muted); font-size: 13.5px; }
+.tt-x { position: absolute; right: 14px; top: 14px; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: none;
+  color: var(--navy); cursor: pointer; font-size: 16px; }
+.tt-x:hover { border-color: var(--teal); }
+.tt-seg { display: flex; padding: 4px; border-radius: 12px; background: var(--mint); margin-bottom: 16px; }
+.tt-seg button { flex: 1; border: 0; padding: 9px; border-radius: 9px; background: none; font: 600 14px 'Inter', sans-serif; color: var(--muted); cursor: pointer; }
+.tt-seg button.on { background: var(--glass-bg); color: var(--teal-dark); box-shadow: 0 2px 8px rgba(0, 0, 0, .12); }
+.tt-field { margin-bottom: 12px; }
+.tt-field label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 5px; color: var(--navy); letter-spacing: .02em; }
+.tt-field .box { position: relative; }
+.tt-field input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--glass-bg);
+  color: var(--navy); font: 500 15px 'Inter', sans-serif; outline: none; transition: border-color .15s, box-shadow .15s; }
+.tt-field input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(13, 148, 136, .18); }
+.tt-field .eye { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: 0; background: none; cursor: pointer; font-size: 16px; padding: 6px; }
+.tt-field .hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+.tt-error { background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; border-radius: 10px; padding: 9px 12px; font-size: 13px; margin-bottom: 12px; display: none; }
+.tt-error.show { display: block; }
+.tt-submit { width: 100%; padding: 13px; border: 0; border-radius: 12px; cursor: pointer; font: 700 15px 'Inter', sans-serif; color: #fff;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark)); transition: transform .15s, box-shadow .15s; }
+.tt-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(13, 148, 136, .35); }
+.tt-submit:disabled { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+.tt-fine { text-align: center; font-size: 12px; color: var(--muted); margin-top: 12px; }
+.tt-link { border: 0; background: none; color: var(--teal-dark); font-weight: 600; cursor: pointer; font-size: inherit; padding: 0; text-decoration: underline; }
+
+/* ---------- profile page ---------- */
+.tt-prof-head { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; padding: 20px; border-radius: 20px; margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(13, 148, 136, .14), rgba(59, 130, 246, .12)); border: 1px solid var(--line); }
+.tt-prof-head h2 { margin: 0; font: 800 24px 'Sora', sans-serif; color: var(--navy); }
+.tt-prof-head p { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; }
+.tt-stats { display: flex; gap: 10px; flex-wrap: wrap; margin-left: auto; }
+.tt-stat { padding: 10px 16px; border-radius: 14px; background: var(--glass-bg); border: 1px solid var(--line); text-align: center; min-width: 96px; }
+.tt-stat b { display: block; font: 800 20px 'Sora', sans-serif; color: var(--navy); }
+.tt-stat span { font-size: 11.5px; color: var(--muted); }
+.tt-tabs2 { display: flex; gap: 6px; margin: 4px 0 14px; flex-wrap: wrap; }
+.tt-tabs2 button { border: 1px solid var(--line); background: var(--glass-bg); color: var(--navy); border-radius: 999px; padding: 8px 16px;
+  font: 600 13.5px 'Inter', sans-serif; cursor: pointer; transition: all .15s; }
+.tt-tabs2 button:hover { border-color: var(--teal); }
+.tt-tabs2 button.on { background: var(--teal); border-color: var(--teal); color: #fff; }
+.tt-tabs2.small button { padding: 6px 12px; font-size: 12.5px; }
+.tt-empty { text-align: center; padding: 38px 16px; color: var(--muted); border: 1px dashed var(--line); border-radius: 16px; }
+.tt-empty b { display: block; color: var(--navy); font: 700 16px 'Sora', sans-serif; margin: 6px 0 4px; }
+.tt-empty .big { font-size: 38px; }
+.tt-list { display: grid; gap: 12px; }
+.tt-trip { display: grid; grid-template-columns: 48px 1fr auto; gap: 4px 14px; align-items: center; padding: 14px 16px; border-radius: 16px;
+  background: var(--glass-bg); border: 1px solid var(--line); transition: border-color .15s, transform .15s; }
+.tt-trip:hover { border-color: var(--teal); transform: translateY(-1px); }
+.tt-trip .ic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: var(--mint); grid-row: span 2; }
+.tt-trip .t { font: 700 15px 'Sora', sans-serif; color: var(--navy); }
+.tt-trip .m { font-size: 12.5px; color: var(--muted); }
+.tt-trip .r { text-align: right; grid-row: span 2; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.tt-trip .price { font: 800 17px 'Sora', sans-serif; color: var(--navy); }
+.tt-trip .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 640px) { .tt-trip { grid-template-columns: 44px 1fr; } .tt-trip .r { grid-column: 1 / -1; grid-row: auto; flex-direction: row; justify-content: space-between; align-items: center; } }
+.tt-badge2 { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; letter-spacing: .02em; }
+.tt-badge2.confirmed { background: #dcfce7; color: #166534; }
+.tt-badge2.cancelled { background: #fee2e2; color: #991b1b; }
+.tt-badge2.pending { background: #fef3c7; color: #92400e; }
+.tt-mini { border: 1px solid var(--line); background: var(--glass-bg); color: var(--navy); border-radius: 9px; padding: 6px 11px; font: 600 12.5px 'Inter', sans-serif; cursor: pointer; }
+.tt-mini:hover { border-color: var(--teal); }
+.tt-mini.primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+.tt-mini.danger { color: #b91c1c; }
+.tt-mini.danger:hover { border-color: #dc2626; }
+.tt-settings { display: grid; gap: 14px; max-width: 560px; }
+.tt-setcard { padding: 16px 18px; border-radius: 16px; background: var(--glass-bg); border: 1px solid var(--line); }
+.tt-setcard h4 { margin: 0 0 10px; font: 700 15px 'Sora', sans-serif; color: var(--navy); }
+.tt-kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 10px; font-size: 14px; color: var(--navy); }
+.tt-kv span:nth-child(odd) { color: var(--muted); }
+
+/* ---------- plan details modal ---------- */
+.tt-det h3 { margin: 16px 0 6px; font: 700 15px 'Sora', sans-serif; color: var(--navy); }
+.tt-det p { margin: 4px 0; font-size: 13.5px; color: var(--navy); line-height: 1.55; }
+.tt-chipset { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.tt-chipset span { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--mint); color: var(--teal-dark); font-weight: 600; }
+.tt-daybox { border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; margin: 8px 0; background: var(--glass-bg); }
+.tt-daybox b { font: 700 14px 'Sora', sans-serif; color: var(--navy); }
+.tt-daybox ol, .tt-daybox ul { margin: 6px 0 2px 18px; padding: 0; font-size: 13.5px; color: var(--navy); line-height: 1.6; }
+.tt-daybox .sm { font-size: 12px; color: var(--muted); }
+.tt-bars { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--line); margin: 8px 0; }
+.tt-bars i { display: block; height: 100%; }
+.tt-modal .foot { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 16px; }
+
+/* save button added to existing result cards */
+.tt-save-btn { border: 1px solid var(--teal); background: transparent; color: var(--teal-dark); border-radius: 10px; padding: 7px 14px;
+  font: 600 13px 'Inter', sans-serif; cursor: pointer; margin-left: 8px; }
+.tt-save-btn:hover { background: var(--mint); }
+.tt-save-btn.saved { border-color: #16a34a; color: #166534; cursor: default; }
+
+.tt-acct { display: flex; gap: 8px; align-items: center; }
